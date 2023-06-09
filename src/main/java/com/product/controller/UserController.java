@@ -40,8 +40,11 @@ public class UserController {
                 }
 
             }
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
+            if (cookie!= null){
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+
         }
         return "redirect:/login";
     }
