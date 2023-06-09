@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{footer/footer::head}">
+
+
+</head>
+
+<body>
+<div class="container">
+    <div th:insert="~{frag :: navbar}"></div>
+    <p th:text="${'Ma San Pham : ' +  dto.pid}"></p>
+    <p th:text="${'Ten San Pham : ' +  dto.pname}"></p>
+    <p th:text="${'Loai San Pham : ' +  dto.catename}"></p>
+    <p th:text="${'Nha San Xuat : ' +  dto.producer}"></p>
+    <p th:text="${'Trang Thai : ' +  dto.sname}"></p>
+    <p th:text="${'Ngay tao : ' +  dto.cdate}"></p>
+
+
+
+
+
+</div>
+
+</body>
+</html>

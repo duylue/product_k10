@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="/product/file" enctype="multipart/form-data">
+    <label for="pfile">File : </label>
+    <input id="pfile" name="pfile" type="file" multiple>
+    <input  name="pid" th:value="${pid}">
+    <input type="submit" value="tai file">
+
+</form>
+</body>
+</html>

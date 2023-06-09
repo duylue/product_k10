@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{footer/footer::head}">
+
+
+</head>
+
+<body>
+<div class="container">
+    <div th:insert="~{frag :: navbar}"></div>
+
+    <div class="container">
+
+        <form method="post" action="/product/save" th:object="${product}">
+            <label for="pname">Product Name</label>
+            <input id="pname" th:field="*{pname}">
+            <div th:if="${#fields.hasErrors('pname')}"  th:errors="*{pname}"></div>
+            <label for="status">status</label>
+            <select id="status" name="status">
+                <option value="1">Con Hang</option>
+                <option value="2"> Het Hang</option>
+                <option value="3"> Dang ve</option>
+            </select>
+
+            <label for="cdate">create Date</label>
+            <input id="cdate" th:field="*{cdate}" type="date">
+
+
+            <label for="price">Price : </label>
+            <input id="price" th:field="*{price}" type="text">
+
+            <label for="cate">catrgory</label>
+            <input id="cate" th:field="*{cateid}" type="text">
+            <label for="prod">producer</label>
+            <input id="prod" th:field="*{producer}" type="text">
+
+
+
+            <button type="submit">dang ky</button>
+        </form>
+
+
+    </div>
+
+    <div th:insert="~{footer/footer :: footer}"></div>
+</div>
+
+</body>
+</html>

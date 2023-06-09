@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{footer/footer::head}">
+
+
+</head>
+
+<body>
+<div class="container">
+    <div th:insert="~{frag :: navbar}"></div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">product Id</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Create Date</th>
+            <th scope="col">detail</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${list}">
+            <td th:text="${item.pid}"></td>
+            <td th:text="${item.pname}"></td>
+            <td th:text="${item.status}"></td>
+            <td th:text="${item.cdate}"></td>
+            <td><a th:href="@{/product/detail(pid=${item.pid})}">deltail</a> </td>
+        </tr>
+
+        </tbody>
+    </table>
+    <a href="http://localhost:8080/product/download-file?pid=52">download</a>
+
+<br>
+    <a class="btn btn-primary" href="/product/create" role="button">Create</a>
+</div>
+<script th:src="@{/js/get-cookie.js}"></script>
+<script>
+    // document.getElementById("uname").innerText =c;
+</script>
+</body>
+</html>
