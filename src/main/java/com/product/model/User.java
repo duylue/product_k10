@@ -13,8 +13,14 @@ public class User {
     private int uid;
     @Column(name = "username", nullable = true,unique = true)
     private String username;
-    @Column(name = "password", nullable = true,unique = true)
+    @Column(name = "password", nullable = true)
     private String password;
     private String name;
 
+    public User() {
+    }
+
+    public User(int uid) {
+        this.uid = uid;
+    }
 }

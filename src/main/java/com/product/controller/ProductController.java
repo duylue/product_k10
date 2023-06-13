@@ -41,9 +41,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public String home(Model model,@CookieValue(value = "username",defaultValue = "") String username) {
+    public String home(Model model,
+                       @SessionAttribute("usn")String test) {
+        System.out.println(test);
 
-        System.out.println(username);
+
         ArrayList<Product> list = productService.getAll();
         model.addAttribute("list", list);
         return "home";
