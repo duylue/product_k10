@@ -5,22 +5,25 @@ import com.product.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @Controller
+@SessionAttributes("user")
 public class UserController {
   private final  UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+@ModelAttribute("user")
+public User setUser(){
+        return new User();
+}
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -29,19 +32,9 @@ public class UserController {
         return "login";
     }
     @GetMapping("/logout")
-    public String logout(Model model,HttpServletRequest request,
-                         HttpServletResponse response) {
-        Cookie cookie = null;
-        Cookie[] arr = request.getCookies();
-        if (arr != null){
-            for (Cookie c: arr) {
-                if (c.getName().equals("username")){
-                    cookie = c;
-                }
-
-            }
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
+    public String logout(@SessionAttribute("username") String username,HttpSession session) {
+        if (username!=null){
+            session.removeAttribute("username");
         }
         return "redirect:/login";
     }
@@ -59,10 +52,11 @@ public class UserController {
         if (user.getUsername().equals(myUser.get().getUsername())&&
              user.getPassword().equals(myUser.get().getPassword()))
         {
-            Cookie cookie = new Cookie("username", user.getUsername());
-            cookie.setMaxAge(60*3);
-            response.addCookie(cookie);
 
+            HttpSession session = request.getSession();
+            session.setAttribute("user",user);
+            session.setAttribute("username" ,user.getUsername());
+            session.setMaxInactiveInterval(180);
 
             return "redirect:/product";
         }else {

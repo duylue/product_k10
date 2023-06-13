@@ -6,9 +6,11 @@ import com.product.dto.ProductSaveDTO;
 import com.product.model.MyFile;
 import com.product.model.Product;
 import com.product.model.ProductDetail;
+import com.product.model.User;
 import com.product.repo.CustomerRepository;
 import com.product.service.FileService;
 import com.product.service.ProductService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,9 +43,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public String home(Model model,@CookieValue(value = "username",defaultValue = "") String username) {
+    public String home(Model model, @SessionAttribute("username") String username) {
 
         System.out.println(username);
+
         ArrayList<Product> list = productService.getAll();
         model.addAttribute("list", list);
         return "home";
