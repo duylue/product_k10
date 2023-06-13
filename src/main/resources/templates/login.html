@@ -4,20 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        #login img{
+            margin: 10px 0;
+        }
+        #login .center {
+            text-align: center;
+        }
+
+        #login .login {
+            max-width: 300px;
+            margin: 35px auto;
+        }
+
+        #login .login-form{
+            padding:0px 25px;
+        }
+    </style>
 </head>
 <body>
-<form action="/login" method="post" th:object="${user}">
-
-    <label for="uname">username</label>
-    <input id="uname" th:field="*{username}" >
-
-    <label for="ps">password : </label>
-    <input id="ps" th:field="*{password}" type="text">
-    <input type="submit" value="Dang Nhap">
-
-    <p th:text="${mess}"></p>
-
-
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<div id="login" class="container">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="login well well-small">
+                <div class="center">
+                    <img src="http://placehold.it/250x100&text=Logo" alt="logo">
+                </div>
+                <form action="/login" th:object="${user}" class="login-form" id="UserLoginForm" method="post" accept-charset="utf-8">
+                    <div class="control-group">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-user"></i></span>
+                            <input  required="required" th:field="*{username}" placeholder="Username" maxlength="30" type="text" id="UserUsername">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-lock"></i></span>
+                            <input th:field="*{password}" required="required" placeholder="Password" type="password" id="UserPassword">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                       <p th:text="${mess}" th:if="${mess != null or mess!= ''}"></p>
+                    </div>
+                    <div class="control-group">
+                        <input class="btn btn-primary btn-large btn-block" type="submit" value="Sign in">
+                    </div>
+                    <a href="/sign-up">You are Create new account</a>
+                </form>
+            </div><!--/.login-->
+        </div><!--/.span12-->
+    </div><!--/.row-fluid-->
+</div><!--/.container-->
 </form>
 </body>
 </html>

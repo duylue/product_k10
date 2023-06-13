@@ -5,6 +5,7 @@ import com.product.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Controller
 public class UserController {
-  private final  UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -24,49 +25,43 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        model.addAttribute("user",new User());
-        model.addAttribute("mess","Nhap tai khoan va mat khau");
+        model.addAttribute("user", new User());
+        model.addAttribute("mess", "");
         return "login";
     }
-    @GetMapping("/logout")
-    public String logout(Model model,HttpServletRequest request,
-                         HttpServletResponse response) {
-        Cookie cookie = null;
-        Cookie[] arr = request.getCookies();
-        if (arr != null){
-            for (Cookie c: arr) {
-                if (c.getName().equals("username")){
-                    cookie = c;
-                }
 
-            }
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
+    @GetMapping("/logout")
+    public String logout(Model model, HttpServletRequest request,
+                         HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        if (username != null
+        ) {
+            session.removeAttribute("username");
         }
+
         return "redirect:/login";
     }
 
     @PostMapping("/login")
-    public String doLogin(Model model , @ModelAttribute("user") User user, HttpServletRequest
-                          request, HttpServletResponse response) {
+    public String doLogin(Model model, @ModelAttribute("user") User user, HttpServletRequest
+            request, HttpServletResponse response) {
         Optional<User> myUser = userService.getUserByUsername(user.getUsername());
-        if (myUser.isEmpty()){
+        if (myUser.isEmpty()) {
 
-            model.addAttribute("mess","Sai tai khoan hoac mat khau");
+            model.addAttribute("mess", "Sai tai khoan hoac mat khau");
             return "login";
         }
 
-        if (user.getUsername().equals(myUser.get().getUsername())&&
-             user.getPassword().equals(myUser.get().getPassword()))
-        {
-            Cookie cookie = new Cookie("username", user.getUsername());
-            cookie.setMaxAge(60*3);
-            response.addCookie(cookie);
-
+        if (user.getUsername().equals(myUser.get().getUsername()) &&
+                user.getPassword().equals(myUser.get().getPassword())) {
+            HttpSession session = request.getSession();
+            session.setAttribute("username", user.getUsername());
+            session.setMaxInactiveInterval(180);
 
             return "redirect:/product";
-        }else {
-            model.addAttribute("mess","Sai tai khoan hoac mat khau");
+        } else {
+            model.addAttribute("mess", "Sai tai khoan hoac mat khau");
             return "login";
         }
 
