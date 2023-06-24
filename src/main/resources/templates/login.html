@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
+<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
 <body>
 <form action="/login" method="post" th:object="${user}">
 
     <label for="uname">username</label>
-    <input id="uname" th:field="*{username}" >
+    <input id="uname" th:field="*{username}">
 
     <label for="ps">password : </label>
     <input id="ps" th:field="*{password}" type="text">
@@ -17,7 +19,17 @@
 
     <p th:text="${mess}"></p>
 
-
+    <button onclick="mtest()">sdasd</button>
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    function mtest() {
+        let x = $("#uname").val()
+
+
+
+    }
+</script>
+
 </body>
 </html>
